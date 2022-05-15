@@ -1,0 +1,68 @@
+#include <iostream>
+#include "stdlib.h"
+
+using namespace std;
+void wyswietl(float x[],int n)
+{
+    for (int i=0;i<n;i++)
+    {
+        cout << x[i]<<" ";
+
+    }
+    cout <<endl;
+}
+void sprawdzenie(int x[],int n)
+{
+    for(int i=0;i<n-1;i++)
+    {
+        if (x[i]>=x[i+1])
+        {
+            cout << "Jedna z liczb sie powtarza lub nie sa ulozone w kolejnosci rosnacej"<<endl;
+            exit(1);
+        }
+    }
+
+}
+void sprawdzDziedzine(int x[],int n,int p)
+{
+    if (p<x[0] || p>x[n-1])
+    {
+        cout << "Blad dziedziny";
+        exit(1);
+    }
+}
+
+void nevill(int k,int p,int x[],float fx[],int n)
+{
+    int j=0;
+    while (j<n-1)
+    {
+        fx[j]=((p-x[j])*fx[j+1]-fx[j]*(p-x[j+k]))/(x[j+k]-x[j]);
+        j++;
+    }
+
+}
+void interpolacja(int x[],float fx[], int n,int p)
+{
+
+    int k=1;
+    sprawdzDziedzine(x,n,p);
+    sprawdzenie(x,n);
+    wyswietl(fx,n);
+    while (k<n)
+    {
+
+        nevill(k,p,x,fx,n);
+        wyswietl(fx,n-k);
+        k++;
+    }
+    cout << "wartosc przyblizona funkcji dla punktu p="<<p<<" jest rowna: "<<fx[0]<<endl;
+}
+int main()
+{
+    int n=4,p=1;
+    int x[]={-3,-1,0,2};
+    float fx[]= {-17,9,17,23};
+    interpolacja(x,fx,n,p);
+    return 0;
+}
